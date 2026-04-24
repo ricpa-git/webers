@@ -1,13 +1,12 @@
 "use client";
 
-import { Terminal } from "lucide-react";
-
 const footerLinks = {
   Servicios: [
     { label: "Desarrollo Web", href: "#servicios" },
     { label: "Diseño UI/UX", href: "#servicios" },
     { label: "E-Commerce", href: "#servicios" },
-    { label: "SEO", href: "#servicios" },
+    { label: "SEO & Rendimiento", href: "#servicios" },
+    { label: "Mantenimiento", href: "#servicios" },
   ],
   Empresa: [
     { label: "Sobre nosotros", href: "#nosotros" },
@@ -42,52 +41,65 @@ function LinkedinIcon({ className }: { className?: string }) {
 }
 
 const socialLinks = [
-  { icon: TwitterIcon, href: "#", label: "Twitter" },
-  { icon: GithubIcon, href: "#", label: "GitHub" },
-  { icon: LinkedinIcon, href: "#", label: "LinkedIn" },
+  { Icon: TwitterIcon, href: "#", label: "Twitter" },
+  { Icon: GithubIcon, href: "#", label: "GitHub" },
+  { Icon: LinkedinIcon, href: "#", label: "LinkedIn" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-surface border-t border-border/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-surface border-t border-border/30">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Main footer */}
         <div className="py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <a href="#inicio" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-surface-light border border-border/50 rounded-lg flex items-center justify-center">
-                <Terminal className="w-5 h-5 text-primary" />
+            <a href="#inicio" className="flex items-center gap-3 mb-6 group">
+              <div className="relative w-7 h-7 flex items-center justify-center shrink-0">
+                <div className="absolute inset-0 border border-primary/40 rotate-45 transition-transform duration-700 group-hover:rotate-[225deg]" />
+                <span
+                  className="text-primary text-xs font-bold relative z-10"
+                  style={{ fontFamily: "var(--font-ibm-mono)" }}
+                >
+                  W
+                </span>
               </div>
-              <span className="text-xl font-bold font-[family-name:var(--font-mono)]">
-                Web<span className="text-primary">ers</span><span className="text-primary/70 terminal-cursor">_</span>
+              <span
+                className="text-base font-bold tracking-wider text-text uppercase"
+                style={{ fontFamily: "var(--font-syne)" }}
+              >
+                Webers<span className="text-primary terminal-cursor">_</span>
               </span>
             </a>
-            <p className="text-text-muted max-w-sm leading-relaxed mb-6 text-sm">
+
+            <p className="text-text-muted text-sm leading-relaxed max-w-xs mb-8">
               Creamos experiencias digitales que impulsan negocios. Diseño
               moderno, código limpio y resultados reales.
             </p>
-            <div className="flex gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-10 h-10 rounded-lg bg-surface-light border border-border/50 flex items-center justify-center text-text-muted transition-all hover:text-primary hover:border-primary/40 hover:shadow-[0_0_10px_rgba(59,130,246,0.1)]"
-                  >
-                    <Icon className="w-5 h-5" />
-                  </a>
-                );
-              })}
+
+            <div className="flex gap-2">
+              {socialLinks.map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="w-9 h-9 border border-border/40 flex items-center justify-center text-text-muted hover:text-primary hover:border-primary/40 transition-all"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Links columns */}
+          {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h3 className="font-semibold text-text mb-4 text-sm">{title}</h3>
+              <h3
+                className="text-xs font-bold text-text uppercase tracking-widest mb-5"
+                style={{ fontFamily: "var(--font-syne)" }}
+              >
+                {title}
+              </h3>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.label}>
@@ -105,15 +117,24 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="py-6 border-t border-border/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted/60">
-          <span>&copy; {new Date().getFullYear()} Webers. Todos los derechos reservados.</span>
+        <div className="py-5 border-t border-border/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span
+            className="text-[11px] text-text-muted/40"
+            style={{ fontFamily: "var(--font-ibm-mono)" }}
+          >
+            © {new Date().getFullYear()} Webers — Todos los derechos reservados.
+          </span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-text-muted transition-colors">
-              Política de privacidad
-            </a>
-            <a href="#" className="hover:text-text-muted transition-colors">
-              Aviso legal
-            </a>
+            {["Política de privacidad", "Aviso legal"].map((text) => (
+              <a
+                key={text}
+                href="#"
+                className="text-[11px] text-text-muted/40 hover:text-text-muted transition-colors"
+                style={{ fontFamily: "var(--font-ibm-mono)" }}
+              >
+                {text}
+              </a>
+            ))}
           </div>
         </div>
       </div>
