@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# copia local del diseño anterior
+backup-diseno-terminal.zip

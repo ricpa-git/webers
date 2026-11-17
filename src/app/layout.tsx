@@ -1,35 +1,45 @@
-import type { Metadata } from "next";
-import { Syne, IBM_Plex_Mono, DM_Sans } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Bodoni_Moda, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 
-const syne = Syne({
-  variable: "--font-syne",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-mono",
+// Fuentes del proyecto destacado (Pablo Gordo Barbería), solo para la fase "Diseño" de BuildReveal
+const bodoni = Bodoni_Moda({
+  variable: "--font-bodoni",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  preload: false,
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  preload: false,
 });
 
 export const metadata: Metadata = {
   title: "Webers — Desarrollo Web Profesional",
   description:
-    "Creamos experiencias digitales únicas. Diseño web moderno, desarrollo a medida y soluciones digitales para tu negocio.",
+    "Diseñamos y desarrollamos webs a medida en Madrid. Rápidas, cuidadas y fáciles de usar.",
   keywords: ["desarrollo web", "diseño web", "webers", "páginas web", "aplicaciones web"],
   openGraph: {
     title: "Webers — Desarrollo Web Profesional",
-    description: "Creamos experiencias digitales únicas.",
+    description: "Webs a medida, rápidas y cuidadas.",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 };
 
 export default function RootLayout({
@@ -38,11 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="es"
-      suppressHydrationWarning
-      className={`${syne.variable} ${ibmPlexMono.variable} ${dmSans.variable} h-full antialiased`}
-    >
+    <html lang="es" suppressHydrationWarning className={`${inter.variable} ${bodoni.variable} ${montserrat.variable} h-full`}>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>{children}</ThemeProvider>
       </body>

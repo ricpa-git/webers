@@ -1,113 +1,153 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Tokens · modo claro (por defecto) ─── */
 @theme {
-  --color-primary: #3B82F6;
-  --color-primary-dark: #1D4ED8;
-  --color-primary-light: #60A5FA;
-  --color-accent: #06B6D4;
-  --color-surface: #111827;
-  --color-surface-light: #1F2937;
-  --color-border: #374151;
-  --color-text: #F1F5F9;
-  --color-text-muted: #94A3B8;
-  --color-success: #10B981;
-  --color-bg: #0B0F19;
-  --color-bg-light: #0F1629;
-  --font-sans: var(--font-dm-sans);
-  --font-mono: var(--font-ibm-mono);
-  --font-display: var(--font-syne);
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f5f7;
+  --color-tile: #f5f5f7; /* tarjeta sobre bg */
+  --color-tile-alt: #ffffff; /* tarjeta sobre bg-alt */
+  --color-text: #1d1d1f;
+  --color-text-muted: #6e6e73;
+  --color-link: #0066cc;
+  --color-button: #0071e3;
+  --color-button-hover: #0077ed;
+  --color-border: #d2d2d7;
+  --color-field-border: #86868b;
+  --color-control: #e8e8ed;
+  --color-skeleton: #e8e8ed;
+  --color-danger: #d70015;
+  --color-success: #248a3d;
+  --color-nav: rgb(255 255 255 / 0.72);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    var(--font-inter), system-ui, "Helvetica Neue", Arial, sans-serif;
+
+  --ease-apple: cubic-bezier(0.28, 0.11, 0.32, 1);
 }
 
-/* Light mode overrides */
-html.light {
-  --color-bg: #F0F4FF;
-  --color-bg-light: #E8EFFE;
-  --color-surface: #FFFFFF;
-  --color-surface-light: #D8E4F8;
-  --color-border: #93AEDD;
-  --color-primary: #1D4ED8;
-  --color-primary-light: #3B82F6;
-  --color-accent: #0891B2;
-  --color-text: #060D1F;
-  --color-text-muted: #374878;
-  --color-success: #059669;
+/* ─── Tokens · modo oscuro ─── */
+html.dark {
+  --color-bg: #000000;
+  --color-bg-alt: #161617;
+  --color-tile: #1c1c1e;
+  --color-tile-alt: #000000;
+  --color-text: #f5f5f7;
+  --color-text-muted: #a1a1a6;
+  --color-link: #2997ff;
+  --color-button: #0071e3;
+  --color-button-hover: #0077ed;
+  --color-border: #424245;
+  --color-field-border: #6e6e73;
+  --color-control: #333336;
+  --color-skeleton: #2c2c2e;
+  --color-danger: #ff6961;
+  --color-success: #30d158;
+  --color-nav: rgb(22 22 23 / 0.8);
 }
 
-html.light .dot-grid {
-  background-image: radial-gradient(circle, rgba(29, 78, 216, 0.30) 1px, transparent 1px);
+/* ─── Escala tipográfica ─── */
+@utility type-hero {
+  font-size: clamp(2.75rem, 7.5vw, 5.75rem);
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.028em;
 }
 
-html.light .scanlines::after {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(29, 78, 216, 0.03) 3px,
-    rgba(29, 78, 216, 0.03) 4px
-  );
+@utility type-headline {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.07;
+  font-weight: 600;
+  letter-spacing: -0.022em;
 }
 
+@utility type-title {
+  font-size: clamp(1.5rem, 2.4vw, 1.75rem);
+  line-height: 1.14;
+  font-weight: 600;
+  letter-spacing: -0.016em;
+}
+
+@utility type-intro {
+  font-size: clamp(1.1875rem, 1.8vw, 1.3125rem);
+  line-height: 1.38;
+  letter-spacing: -0.01em;
+}
+
+/* Tarjeta de carrusel al estilo apple.com/store: sombra suave que se intensifica y +1 % de escala */
+@utility card-lift {
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 0.08);
+  transition:
+    transform 0.3s cubic-bezier(0, 0, 0.5, 1),
+    box-shadow 0.3s cubic-bezier(0, 0, 0.5, 1);
+  :where(.dark) & {
+    box-shadow: 2px 4px 12px rgb(0 0 0 / 0.5);
+  }
+  /* Solo con ratón: en táctil el hover se quedaría "pegado" tras tocar */
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: 2px 4px 16px rgb(0 0 0 / 0.16);
+      transform: scale3d(1.01, 1.01, 1.01);
+    }
+    :where(.dark) &:hover {
+      box-shadow: 2px 4px 16px rgb(0 0 0 / 0.8);
+    }
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ─── Base ─── */
 html {
+  color-scheme: light;
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.2s ease;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.012em;
 }
 
-/* Suaviza transición de tema en elementos clave */
-.theme-transition,
-nav, footer, section {
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+section[id] {
+  scroll-margin-top: 3rem;
 }
 
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+::selection {
+  background: color-mix(in srgb, var(--color-button) 25%, transparent);
 }
 
-.terminal-cursor {
-  animation: blink 1s step-end infinite;
+/* El contorno sigue el radio de cada elemento (no se fuerza border-radius) */
+:focus-visible {
+  outline: 2px solid var(--color-button);
+  outline-offset: 3px;
 }
 
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes spin-slow-reverse {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
-.spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
-.spin-slow-reverse {
-  animation: spin-slow-reverse 14s linear infinite;
-}
-
-/* Dot grid bg utility */
-.dot-grid {
-  background-image: radial-gradient(circle, rgba(59, 130, 246, 0.25) 1px, transparent 1px);
-  background-size: 36px 36px;
-}
-
-/* Scanlines overlay */
-.scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(0, 0, 0, 0.04) 3px,
-    rgba(0, 0, 0, 0.04) 4px
-  );
-  pointer-events: none;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
